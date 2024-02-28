@@ -1,5 +1,7 @@
 let form = document.getElementById('form')
-
+let tbody = document.getElementById('tbody')
+let add = document.getElementById('add')
+let userId =1;
 let firstName = document.querySelector('.fname')
 let lastName = document.querySelector('.lname')
 let email = document.querySelector('.email') 
@@ -15,8 +17,9 @@ let msgGraduation = document.getElementById('msgGraduation')
 
 form.addEventListener('submit', (e)=>{
     e.preventDefault();
-    formValidation()
+    formValidation();
 });
+
 
 let formValidation = () => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -24,55 +27,138 @@ let formValidation = () => {
     let graduationFormat = new Date(graduation.value);
     let current = new Date();
     let yearDiff = current.getFullYear()-dobFormat.getFullYear();
+    let isValid = true;
 
-    if(firstName.value.trim()===''){   
+    if(firstName.value.trim()==='' ){   
 
         console.log('firstname failure');
 
         firstName.classList.add('is-invalid');
         msgFname.innerHTML='Inavlid Input!';
-        msgFname.classList.add('text-danger')
+        msgFname.classList.add('text-danger');
+        isValid=false;
 
-    }else if(!emailRegex.test(email.value)){
+    }
+     if(!emailRegex.test(email.value)){
         
         console.log('email failure');
 
         email.classList.add('is-invalid');
         msgEmail.innerHTML='Inavlid Input!';
-        msgEmail.classList.add('text-danger')
+        msgEmail.classList.add('text-danger');
+        isValid=false;
 
-    }else if(address.value.trim()===''){
+    }
+    if(address.value.trim()===''){
 
         console.log('address failure');
 
         address.classList.add('is-invalid');
         msgAddress.innerHTML='Inavlid Input!';
-        msgAddress.classList.add('text-danger')
+        msgAddress.classList.add('text-danger');
+        isValid=false;
 
-    }else if(yearDiff<18){
+    }
+    if(dob.value==='' || yearDiff<18){
 
         console.log('dob failure');
 
         dob.classList.add('is-invalid');
         msgDob.innerHTML='Min age must be 19!';
-        msgDob.classList.add('text-danger')
+        msgDob.classList.add('text-danger');
+        isValid=false;
 
-    }else if(graduationFormat>current){
+    }
+    if(graduation.value==='' || graduationFormat>current){
 
         console.log('graduation failure');
 
         graduation.classList.add('is-invalid');
-        msgGraduation.innerHTML='Must be before current Year!';
-        msgGraduation.classList.add('text-danger')
-
+        msgGraduation.innerHTML=`Must be before ${current.getUTCFullYear()}!`;
+        msgGraduation.classList.add('text-danger');
+        isValid=false;
     }
-    else {
-        console.log('success')
+
+    if(isValid){
+        console.log('success');
+        reset();
+        addUser();
+        add.setAttribute('data-bs-dismiss','modal');
+        add.click();
+        (()=>{
+            add.setAttribute('data-bs-dismiss','');
+        })()
     }
 }
 
+let users = [];
+let addUser = (index, existingUser) => {
+    // for add 
+    let user = {
+        id: userId,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+        address: address.value,
+        dob: dob.value,
+        graduation: graduation.value
+    }
+    users.push(user);
+    // for update 
+    renderUsers();
+    alert('user created successfully!');
+}
+
+let renderUsers = ()=> {
+    resetForm();
+
+    return ( tbody.innerHTML= users.map((x,y)=> {
+        let {firstName, lastName, address, email, dob, graduation} = x;
+
+        return `
+        <tr >
+            <th scope="row">${y+1}</th>
+            <td>${firstName}</td>
+            <td>${lastName}</td>
+            <td>${email}</td>
+            <td>${address}</td>
+            <td>${dob}</td>
+            <td>${graduation}</td>
+            <td>
+                <button onclick="readUser(${y})" class="btn btn-outline-success me-2">
+                    <i class="fa-solid fa-eye fa-lg"></i>
+                </button>
+                <button onclick="updateUser(${y})" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#form">
+                    <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                </button>
+                <button onclick="deleteUser(${y})" class="btn btn-outline-danger" >
+                    <i class="fa-regular fa-trash-can fa-lg"></i>
+                </button>
+            </td>
+        </tr>
+        `
+    }).join(' '))
+}
+
+let updateUser = (id) => {
+    let currentUser = users.find((user, index)=> index==id)
+    let existingUser = true;
+    console.log(currentUser)
+    firstName.value= currentUser.firstName;
+    lastName.value= currentUser.lastName;
+    email.value= currentUser.email;
+    address.value= currentUser.address;
+    dob.value= currentUser.dob;
+    graduation.value= currentUser.graduation;
+}
+
+let deleteUser = (id)=> {
+    users = users.filter((user, index)=> index!=id);
+    renderUsers();
+}
+
 let reset = () => {
-    
+
     // remove highlights from input
     firstName.classList.remove('is-invalid');
     email.classList.remove('is-invalid');
@@ -94,4 +180,13 @@ let reset = () => {
     msgDob.classList.remove('text-danger');
     msgGraduation.classList.remove('text-danger');
 
+}
+
+let resetForm = () => {
+    firstName.value='';
+    lastName.value='';
+    email.value='';
+    address.value='';
+    dob.value='';
+    graduation.value='';
 }

@@ -161,10 +161,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="add" type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </div>
@@ -179,12 +179,13 @@
                         <th scope="col">Last Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Address</th>
+                        <th scope="col">D.O.B</th>
                         <th scope="col">Graduation Year</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider">
-                    <tr>
+                <tbody id="tbody" class="table-group-divider">
+                    <!-- <tr>
                         <th scope="row">1</th>
                         <td>Mark</td>
                         <td>Otto</td>
@@ -202,7 +203,7 @@
                                 <i class="fa-regular fa-trash-can fa-lg"></i>
                             </button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
