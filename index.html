@@ -78,102 +78,77 @@
                         <div class="table-responsive">
                             <table class="table text-center">
                                 <thead >
-                                  <tr >
-                                    <th class="fw-medium" scope="col">Degree/Board</th>
-                                    <th class="fw-medium" scope="col">School/College</th>
-                                    <th class="fw-medium" scope="col">Start Year</th>
-                                    <th class="fw-medium" scope="col">Passout Year</th>
-                                    <th class="fw-medium" scope="col">Percentage</th>
-                                    <th class="fw-medium" scope="col">Backlog</th>
-                                    <th class="fw-medium" scope="col">Add/Remove</th>
-                                  </tr>
+                                    <tr >
+                                        <th class="fw-medium" scope="col">Degree/Board</th>
+                                        <th class="fw-medium" scope="col">School/College</th>
+                                        <th class="fw-medium" scope="col">Start Year</th>
+                                        <th class="fw-medium" scope="col">Passout Year</th>
+                                        <th class="fw-medium" scope="col">Percentage</th>
+                                        <th class="fw-medium" scope="col">Backlog</th>
+                                        <th class="fw-medium" scope="col">Add/Remove</th>
+                                    </tr>
+                                    <tr>
+                                        <div id="educationTableBodyStatic">
+                        
+                                        </div>
+                                        <td>
+                                            <input type="text" class="form-control degree-1" placeholder="Degree">
+                                            <p class="msgDegree-1 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control college-1" placeholder="College">
+                                            <p class="msgCollege-1 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="month" class="form-control startYear-1" placeholder="Start Year">
+                                            <p class="msgStartYear-1 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="month" class="form-control passoutYear-1" placeholder="Passout Year">
+                                            <p class="msgPassoutYear-1 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control percentage-1" placeholder="Percentage" min="0" max="100" step="0.01">
+                                            <p class="msgPercentage-1 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control backlog-1" placeholder="Backlog" min="0" max="100">
+                                            <p class="msgBacklog-1 fs-6"></p>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control degree-2" placeholder="Degree">
+                                            <p class="msgDegree-2 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control college-2" placeholder="College">
+                                            <p class="msgCollege-2 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="month" class="form-control startYear-2" placeholder="Start Year">
+                                            <p class="msgStartYear-2 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="month" class="form-control passoutYear-2" placeholder="Passout Year">
+                                            <p class="msgPassoutYear-2 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control percentage-2" placeholder="Percentage" min="0" max="100" step="0.01">
+                                            <p class="msgPercentage-2 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control backlog-2" placeholder="Backlog" min="0" max="100">
+                                            <p class="msgBacklog-2 fs-6"></p>
+                                        </td>
+                                        <td>
+                                            <button type="button" onclick="addEducationRow()" class="btn btn-outline-primary"><i class="fa-solid fa-plus"></i></button>
+                                        </td>
+                                    </tr>
                                 </thead>
-                                <tbody >
-                                  <tr>
-                                    <td class="pb-0">
-                                        <input type="text" class="form-control degree" placeholder="Degree">
-                                        <p class="msgDegree fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control college" placeholder="College">
-                                        <p class="msgCollege fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="month" class="form-control startYear" placeholder="Start Year">
-                                        <p class="msgStartYear fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="month" class="form-control passoutYear" placeholder="Passout Year">
-                                        <p class="msgPassoutYear fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control percentage" placeholder="Percentage" min="0" max="100" step="0.01">
-                                        <p class="msgPercentage fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control backlog" placeholder="Backlog" min="0" max="100">
-                                        <p class="msgBacklog fs-6"></p>
-                                    </td>
-                                    <td></td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pb-0">
-                                        <input type="text" class="form-control degree" placeholder="Degree">
-                                        <p class="msgDegree fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control college" placeholder="College">
-                                        <p class="msgCollege fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="month" class="form-control startYear" placeholder="Start Year">
-                                        <p class="msgStartYear fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="month" class="form-control passoutYear" placeholder="Passout Year">
-                                        <p class="msgPassoutYear fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control percentage" placeholder="Percentage" min="0" max="100" step="0.01">
-                                        <p class="msgPercentage fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control backlog" placeholder="Backlog" min="0" max="100">
-                                        <p class="msgBacklog fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-outline-primary"><i class="fa-solid fa-plus"></i></button>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="pb-0">
-                                        <input type="text" class="form-control degree" placeholder="Degree">
-                                        <p class="msgDegree fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control college" placeholder="College">
-                                        <p class="msgCollege fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="month" class="form-control startYear" placeholder="Start Year">
-                                        <p class="msgStartYear fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="month" class="form-control passoutYear" placeholder="Passout Year">
-                                        <p class="msgPassoutYear fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control percentage" placeholder="Percentage" min="0" max="100" step="0.01">
-                                        <p class="msgPercentage fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control backlog" placeholder="Backlog" min="0" max="100">
-                                        <p class="msgBacklog fs-6"></p>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-outline-danger"><i class="fa-solid fa-minus"></i></button>
-                                    </td>
-                                  </tr>
+                                <tbody id="educationTableBody">
+                                
                                 </tbody>
                             </table>
                         </div>
