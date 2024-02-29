@@ -22,67 +22,77 @@ form.addEventListener('submit', (e)=>{
 
 
 let formValidation = () => {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let dobFormat = new Date(dob.value);
-    let graduationFormat = new Date(graduation.value);
-    let current = new Date();
-    let yearDiff = current.getFullYear()-dobFormat.getFullYear();
     let isValid = true;
 
-    if(firstName.value.trim()==='' ){   
+    const validateField = (input, message)=> {
+        if(input.value.trim()==='' ){   
+            input.classList.add('is-invalid');
+            message.innerHTML='Inavlid Input!';
+            message.classList.add('text-danger');
+            isValid=false;
+        }
+    }
 
-        console.log('firstname failure');
+    const validateEmail = (message) => {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if(!emailRegex.test(email.value)){
+            email.classList.add('is-invalid');
+            message.innerHTML='Inavlid Input!';
+            message.classList.add('text-danger');
+            isValid=false;
+        }
+    }
+    
+    const validateDate = (dateInput, message, minAge) => {
+        const dateValue = new Date(dateInput);
+        const currentYear = new Date().getFullYear;
+        const yearDiff = currentYear - dateValue.getFullYear();
 
-        firstName.classList.add('is-invalid');
-        msgFname.innerHTML='Inavlid Input!';
-        msgFname.classList.add('text-danger');
-        isValid=false;
+        if(dateInput.value === '' || yearDiff < minAge){
+            dateInput.classList.add('is-invalid');
+            message.innerHTML=`Age must be at least ${minAge} years!`;
+            message.classList.add('text-danger');
+            isValid=false;
+        }
+    }
+
+    let degree = document.querySelectorAll('degree');
+    degree.forEach(element => {
+        element.addEventListener('blur', () => {
+            validateDegree(element, )
+        })
+    })
+
+    const validateDegree = (element, message) => {
+        if(element.value.trim()===''){
+        message.classList.add('is-invalid')
+        message.classList.add
+        }
 
     }
-     if(!emailRegex.test(email.value)){
-        
-        console.log('email failure');
+    
 
-        email.classList.add('is-invalid');
-        msgEmail.innerHTML='Inavlid Input!';
-        msgEmail.classList.add('text-danger');
-        isValid=false;
+    // validating each input field
+    validateField(firstName, msgFname);
+    validateEmail(msgEmail);
+    validateField(address, msgAddress);
+    validateDate(dob, msgDob, 18); // Minimum age required: 18 years
+    validateDate(graduation, msgGraduation, 0); // graduation year not in the future
 
-    }
-    if(address.value.trim()===''){
 
-        console.log('address failure');
-
-        address.classList.add('is-invalid');
-        msgAddress.innerHTML='Inavlid Input!';
-        msgAddress.classList.add('text-danger');
-        isValid=false;
-
-    }
-    if(dob.value==='' || yearDiff<18){
-
-        console.log('dob failure');
-
-        dob.classList.add('is-invalid');
-        msgDob.innerHTML='Min age must be 19!';
-        msgDob.classList.add('text-danger');
-        isValid=false;
-
-    }
-    if(graduation.value==='' || graduationFormat>current){
-
-        console.log('graduation failure');
-
-        graduation.classList.add('is-invalid');
-        msgGraduation.innerHTML=`Must be before ${current.getUTCFullYear()}!`;
-        msgGraduation.classList.add('text-danger');
-        isValid=false;
-    }
 
     if(isValid){
         console.log('success');
+        // reset form validation state 
         reset();
-        addUser();
+
+        if(add.dataset.action === 'add'){
+            addUser();
+        }else if(add.dataset.action === 'update'){
+            updateUserInList();
+        }
+
+        // close the modal 
         add.setAttribute('data-bs-dismiss','modal');
         add.click();
         (()=>{
@@ -92,10 +102,10 @@ let formValidation = () => {
 }
 
 let users = [];
-let addUser = (index, existingUser) => {
+let addUser = () => {
     // for add 
     let user = {
-        id: userId,
+        id: userId++,
         firstName: firstName.value,
         lastName: lastName.value,
         email: email.value,
@@ -112,12 +122,12 @@ let addUser = (index, existingUser) => {
 let renderUsers = ()=> {
     resetForm();
 
-    return ( tbody.innerHTML= users.map((x,y)=> {
-        let {firstName, lastName, address, email, dob, graduation} = x;
+    return ( tbody.innerHTML= users.map((user,index)=> {
+        let { id, firstName, lastName, address, email, dob, graduation} = user;
 
         return `
-        <tr >
-            <th scope="row">${y+1}</th>
+        <tr data-user-id="${id}" >
+            <th scope="row">${index+1}</th>
             <td>${firstName}</td>
             <td>${lastName}</td>
             <td>${email}</td>
@@ -125,13 +135,10 @@ let renderUsers = ()=> {
             <td>${dob}</td>
             <td>${graduation}</td>
             <td>
-                <button onclick="readUser(${y})" class="btn btn-outline-success me-2">
-                    <i class="fa-solid fa-eye fa-lg"></i>
-                </button>
-                <button onclick="updateUser(${y})" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#form">
+                <button onclick="updateUser(${index})" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#form">
                     <i class="fa-solid fa-pen-to-square fa-lg"></i>
                 </button>
-                <button onclick="deleteUser(${y})" class="btn btn-outline-danger" >
+                <button onclick="deleteUser(${index})" class="btn btn-outline-danger" >
                     <i class="fa-regular fa-trash-can fa-lg"></i>
                 </button>
             </td>
@@ -140,21 +147,52 @@ let renderUsers = ()=> {
     }).join(' '))
 }
 
-let updateUser = (id) => {
-    let currentUser = users.find((user, index)=> index==id)
-    let existingUser = true;
-    console.log(currentUser)
-    firstName.value= currentUser.firstName;
-    lastName.value= currentUser.lastName;
-    email.value= currentUser.email;
-    address.value= currentUser.address;
-    dob.value= currentUser.dob;
-    graduation.value= currentUser.graduation;
+let updateUser = (index) => {
+    let currentUser = users[index]
+
+    if(currentUser){
+
+        firstName.value= currentUser.firstName;
+        lastName.value= currentUser.lastName;
+        email.value= currentUser.email;
+        address.value= currentUser.address;
+        dob.value= currentUser.dob;
+        graduation.value= currentUser.graduation;
+
+        // Update the button attribute to indicate it's an update action
+        add.setAttribute('data-action', 'update')
+        add.setAttribute('data-user-id', currentUser.id)
+    }
 }
 
-let deleteUser = (id)=> {
-    users = users.filter((user, index)=> index!=id);
-    renderUsers();
+// function to update users in the array or list
+let updateUserInList = () => {
+    let userIdToUpdate = add.dataset.userId; // Retrieve the user ID from the button attribute
+
+    // Find the user in the list and update their data
+    let index = users.findIndex((user) => user.id == userIdToUpdate);
+    if (index !== -1) {
+        users[index] = {
+            id: userIdToUpdate,
+            firstName: firstName.value,
+            lastName: lastName.value,
+            email: email.value,
+            address: address.value,
+            dob: dob.value,
+            graduation: graduation.value
+        };
+
+        renderUsers(); // Update the UI
+        alert('User updated successfully!');
+    }
+}
+
+let deleteUser = (index)=> {
+    let result = confirm('Are you sure?')
+    if(result){
+        users.splice(index, 1)
+        renderUsers();
+    }
 }
 
 let reset = () => {
@@ -189,4 +227,6 @@ let resetForm = () => {
     address.value='';
     dob.value='';
     graduation.value='';
+    add.setAttribute('data-action', 'add');
+    add.removeAttribute('data-user-id');
 }
