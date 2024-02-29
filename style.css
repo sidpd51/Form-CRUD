@@ -11,6 +11,8 @@ body {
 }
 
 .fs-6 {
-  font-size: 0.85rem !important;
+  font-size: 0.65rem !important;
   text-align: left !important;
+  margin-bottom: 0;
 }
+
