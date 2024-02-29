@@ -9,3 +9,8 @@ body {
   font-family: "Poppins", sans-serif;
   line-height: 1.6;
 }
+
+.fs-6 {
+  font-size: 0.85rem !important;
+  text-align: left !important;
+}
