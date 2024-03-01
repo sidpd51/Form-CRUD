@@ -41,6 +41,7 @@ form.addEventListener('submit', (e)=>{
 
 
 let formValidation = () => {
+
     let degree_1 = document.querySelector('.degree-1');
     let college_1 = document.querySelector('.college-1');
     let startYear_1 = document.querySelector('.startYear-1');
@@ -67,7 +68,7 @@ let formValidation = () => {
     let msgPassoutYear_2 = document.querySelector('.msgPassoutYear-2');
     let msgPercentage_2 = document.querySelector('.msgPercentage-2');
     let msgBacklog_2 = document.querySelector('.msgBacklog-2');
-
+    reset()
 
 
     let isValid = true;
@@ -96,7 +97,6 @@ let formValidation = () => {
         const currentYear = new Date().getFullYear();
         const yearDiff = currentYear - dateValue.getFullYear();
         if(dateInput.value === '' || yearDiff < minAge){
-            console.log('date error ')
             dateInput.classList.add('is-invalid');
             message.innerHTML=`Age must be at least ${minAge} years!`;
             message.classList.add('text-danger');
@@ -121,7 +121,7 @@ let formValidation = () => {
     const numValidation = (num, message) => {
         if(num.value===''){
             num.classList.add('is-invalid');
-            message.innerHTML="Non-negative only.";
+            message.innerHTML="Invalid input!";
             isValid=false;
         }
     }
@@ -487,18 +487,19 @@ let reset = () => {
     let msgPercentages = document.querySelectorAll('.msgPercentage');
     let msgBacklogs = document.querySelectorAll('.msgBacklog');
     let inputs = document.querySelectorAll('.table input');
+
     for(let i =0; i<inputs.length; i++){
         inputs[i].classList.remove('is-invalid');
     }
 
     for(let i =0; i<msgDegrees.length; i++){
-        msgDegrees[i].innerHTML='';
-        msgColleges[i].innerHTML='';
-        msgStartYears[i].innerHTML='';
-        msgPassoutYears[i].innerHTML='';
-        msgPassoutYears[i].innerHTML='';
-        msgPercentages[i].innerHTML='';
-        msgBacklogs[i].innerHTML='';
+        msgDegrees[i].innerHTML=' ';
+        msgColleges[i].innerHTML=' ';
+        msgStartYears[i].innerHTML=' ';
+        msgPassoutYears[i].innerHTML=' ';
+        msgPassoutYears[i].innerHTML=' ';
+        msgPercentages[i].innerHTML=' ';
+        msgBacklogs[i].innerHTML=' ';
     }
 
 }
