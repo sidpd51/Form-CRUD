@@ -511,6 +511,18 @@ let resetForm = () => {
     address.value='';
     dob.value='';
     graduation.value='';
+    degree1.value='';
+    college1.value='';
+    startYear1.value='';
+    passoutYear1.value='';
+    percentage1.value='';
+    backlog1.value='';
+    degree2.value='';
+    college2.value='';
+    startYear2.value='';
+    passoutYear2.value='';
+    percentage2.value='';
+    backlog2.value='';
     add.setAttribute('data-action', 'add');
     add.removeAttribute('data-user-id');
 }
