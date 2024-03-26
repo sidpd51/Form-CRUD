@@ -1,207 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FORM-CRUD</title>
-    <script src="https://kit.fontawesome.com/2604aff8b6.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <script src="https://kit.fontawesome.com/2604aff8b6.js" crossorigin="anonymous" ></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <main class="main m-lg-5 mt-3">
-        <header class="header d-flex justify-content-between align-items-center mb-4 mx-5">
-            <h3 class="heading fw-semibold mb-0">Multiple-User-Form</h3>
-            <button id="create-form" type="button" class="btn btn-outline-primary btn" data-bs-toggle="modal" data-bs-target="#form">
-                Create User
+    <div class="main-container w-75 mx-auto mt-7 p-4 rounded-3 m-" id="main-container">
+        <!-- header  -->
+        <div class="header-section d-flex justify-content-between mb-4 align-items-center">
+            <h3 class="h3 m-0">Student list</h3>
+            <!-- button trigger modal -->
+            <button id="create-form" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form">
+                Create Form
             </button>
-        </header>
-
+        </div>
         <!-- Modal -->
-        <form class="modal fade" id="form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down modal-xl">
+        <form class="modal fade" id="form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-3 fw-semibold " id="staticBackdropLabel">
-                            Add Details
-                        </h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Student Form</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="container text-center">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control fname" id="floatingInput" placeholder="siddharth">
-                                        <label id="msgFname" for="floatingInput">First Name</label>
+                        <div class="personal-info container text-start mb-5">
+                            <div class="row gy-3">
+                                <div class="col-md-4 col-6">
+                                    <label for="validationCustom01" class="form-label">First name</label>
+                                    <input type="text" class="form-control" id="validationCustom01" placeholder="Mark">
+                                    <div class="validationCustom01Error text-danger error-field">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control lname" id="floatingInput" placeholder="prasad">
-                                        <label  for="floatingInput">Last Name</label>
+                                <div class="col-md-4 col-6">
+                                    <label for="validationCustom02" class="form-label">Last name</label>
+                                    <input type="text" class="form-control" id="validationCustom02" placeholder="Spencer">
+                                    <div class="validationCustom02Error text-danger error-field">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">   
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control email" id="floatingInput" placeholder="name@example.com">
-                                        <label id="msgEmail" for="floatingInput">Email</label>
+                                <div class="col-md-4 col-6">
+                                    <label for="validationCustom03" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="validationCustom03" placeholder="Mark@gmail.com">
+                                    <div class="validationCustom03Error text-danger error-field">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">   
-                                    <div class="form-floating mb-3">
-                                        <textarea class="form-control address" placeholder="Your address" id="floatingTextarea"></textarea>
-                                        <label id="msgAddress" for="floatingTextarea">Address</label>
+                                <div class="col-md-4 col-6">
+                                    <label for="validationCustom04" class="form-label">D.O.B</label>
+                                    <input type="date" class="form-control" id="validationCustom04">
+                                    <div class="validationCustom04Error text-danger error-field">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">   
-                                    <div class="form-floating mb-3">
-                                        <input type="date" class="form-control dob" id="floatingInput" placeholder="your d.o.b">
-                                        <label id="msgDob" for="floatingInput">Date Of Birth</label>
+                                <div class="col-md-4 col-6">
+                                    <label for="validationCustom05" class="form-label">Graduation Year</label>
+                                    <input type="date" class="form-control" id="validationCustom05">
+                                    <div class="validationCustom05Error text-danger error-field">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">   
-                                    <div class="form-floating mb-3">
-                                        <input type="month" class="form-control graduation" id="floatingInput" placeholder="graduation year">
-                                        <label id="msgGraduation" for="floatingInput">Graduation Year</label>
+                                <div class="col-md-4 col-6">
+                                    <label for="validationCustom06" class="form-label">Address</label>
+                                    <input type="text" class="form-control" id="validationCustom06" placeholder="shree krishna society, bopal,ahmedabad">
+                                    <div class="validationCustom06Error text-danger error-field">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="education-section-intro mt-4 mb-3">
-                            <h4 class="fw-medium text-decoration-underline fs-4">Education info</h4>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table text-center">
-                                <thead >
-                                    <tr >
-                                        <th class="fw-medium" scope="col">Degree/Board</th>
-                                        <th class="fw-medium" scope="col">School/College</th>
-                                        <th class="fw-medium" scope="col">Start Year</th>
-                                        <th class="fw-medium" scope="col">Passout Year</th>
-                                        <th class="fw-medium" scope="col">Percentage</th>
-                                        <th class="fw-medium" scope="col">Backlog</th>
-                                        <th class="fw-medium" scope="col">Add</th>
-                                    </tr>
-                                    <tr>
+                        <div class="education-info mb-3">
+                            <div class="header-section d-flex justify-content-between w-95 mx-auto align-items-center">
+                                <h3 class="h3 m-0">Education info:</h3>
+                                <button onclick="addEducationRow()" class="add-education-field btn btn-outline-primary" type="button">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">University</th>
+                                        <th scope="col">Degree</th>
+                                        <th scope="col">Start Date</th>
+                                        <th scope="col">Passout Year</th>
+                                        <th scope="col">Grade</th>
+                                        <th scope="col">Backlog</th>
+                                        <th scope="col">Remove</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="tbody-education-field">
+                                      <tr>
                                         <td>
-                                            <input type="text" class="form-control degree degree-1" placeholder="Degree">
-                                            <p class="msgDegree-1 msgDegree fs-6 text-danger"></p>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control college college-1" placeholder="College">
-                                            <p class="msgCollege-1 msgCollege fs-6 text-danger"></p>
-                                        </td>
-                                        <td>
-                                            <input type="month" class="form-control startYear startYear-1" placeholder="Start Year">
-                                            <p class="msgStartYear-1 msgStartYear fs-6 text-danger"></p>
+                                            <input type="text" class="form-control university" placeholder="University">
+                                            <div class="universityError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="month" class="form-control passoutYear passoutYear-1" placeholder="Passout Year">
-                                            <p class="msgPassoutYear-1 msgPassoutYear fs-6 text-danger"></p>
+                                            <input type="text" class="form-control degree" placeholder="Degree">
+                                            <div class="degreeError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control percentage percentage-1" placeholder="Percentage" min="0" max="100" step="0.01">
-                                            <p class="msgPercentage-1 msgPercentage fs-6 text-danger"></p>
+                                            <input type="date" class="form-control startYear">
+                                            <div class="startYearError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control backlog backlog-1" placeholder="Backlog" min="0" max="100">
-                                            <p class="msgBacklog-1 msgBacklog fs-6 text-danger"></p>
-                                        </td>
-                                        <td class="action"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="form-control degree degree-2" placeholder="Degree">
-                                            <p class="msgDegree-2 msgDegree  fs-6 text-danger"></p>
+                                            <input type="date" class="form-control passoutYear">
+                                            <div class="passoutYearError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control college college-2" placeholder="College">
-                                            <p class="msgCollege-2 msgCollege fs-6 text-danger"></p>
+                                            <input type="number" class="form-control percentage" min="45" max="100" step="0.01">
+                                            <div class="percentageError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="month" class="form-control startYear startYear-2" placeholder="Start Year">
-                                            <p class="msgStartYear-2 msgStartYear fs-6 text-danger"></p>
+                                            <input type="number" class="form-control backlog" min="0" max="50">
+                                            <div class="backlogError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="month" class="form-control passoutYear passoutYear-2" placeholder="Passout Year">
-                                            <p class="msgPassoutYear-2 msgPassoutYear fs-6 text-danger"></p>
+                                            <button onclick="removeEducationRow(this)" type="button" class="btn btn-outline-primary remove-education-field" disabled><i class="fa-solid fa-minus"></i></button>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                            <input type="text" class="form-control university" placeholder="University">
+                                            <div class="universityError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control percentage percentage-2" placeholder="Percentage" min="0" max="100" step="0.01">
-                                            <p class="msgPercentage-2 msgPercentage fs-6 text-danger"></p>
+                                            <input type="text" class="form-control degree" placeholder="Degree">
+                                            <div class="degreeError text-danger"></div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control backlog backlog-2" placeholder="Backlog" min="0" max="100">
-                                            <p class="msgBacklog-2 msgBacklog fs-6 text-danger"></p>
+                                            <input type="date" class="form-control startYear">
+                                            <div class="startYearError text-danger"></div>
                                         </td>
-                                        <td class="action">
-                                            <button type="button" onclick="addEducationRow()" class="btn btn-outline-primary"><i class="fa-solid fa-plus"></i></button>
+                                        <td>
+                                            <input type="date" class="form-control passoutYear">
+                                            <div class="passoutYearError text-danger"></div>
                                         </td>
-                                    </tr>
-                                </thead>
-                                <tbody id="educationTableBody">
-                                
-                                </tbody>
-                            </table>
+                                        <td>
+                                            <input type="number" class="form-control percentage" min="45" max="100" step="0.01">
+                                            <div class="percentageError text-danger"></div>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control backlog" min="0" max="50">
+                                            <div class="backlogError text-danger"></div>
+                                        </td>
+                                        <td>
+                                            <button onclick="removeEducationRow(this)" type="button" class="btn btn-outline-primary remove-education-field" disabled><i class="fa-solid fa-minus"></i></button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <button id="add" type="submit" data-action="add" class="btn btn-primary">Submit</button>
+                        <button id="close-btn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="submit-btn" type="submit" class="btn btn-primary" data-bs-action="add">Add</button>
                     </div>
                 </div>
             </div>
         </form>
-
-        <div class="table-responsive mx-5">
-            <table class="table text-center">
+        <!-- student lists -->
+        <div class="table-responsive">
+            <table class="table">
                 <thead>
-                    <tr class="fw-semibold">
-                        <th scope="col">#</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
+                    <tr>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Address</th>
                         <th scope="col">D.O.B</th>
-                        <th scope="col">Graduation Year</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Graduation</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">View</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
-                <tbody id="tbody" class="table-group-divider">
+                <tbody id="tbody-main">
                     <!-- <tr>
-                        <th scope="row">1</th>
                         <td>Mark</td>
                         <td>Otto</td>
                         <td>@mdo</td>
                         <td>@mdo</td>
                         <td>@mdo</td>
-                        <td>
-                            <button class="btn btn-outline-success me-2">
-                                <i class="fa-solid fa-eye fa-lg"></i>
-                            </button>
-                            <button class="btn btn-outline-primary me-2">
-                                <i class="fa-solid fa-pen-to-square fa-lg"></i>
-                            </button>
-                            <button class="btn btn-outline-danger">
-                                <i class="fa-regular fa-trash-can fa-lg"></i>
-                            </button>
-                        </td>
+                        <td>@mdo</td>
+                        <td><button class="btn btn-outline-primary"><i class="fa-solid fa-eye"></i></button></td>
+                        <td><button class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></button></td>
+                        <td><button class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></button></td>
                     </tr> -->
                 </tbody>
             </table>
         </div>
-    </main>
+    </div>
+    <script src="main.js" defer></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-<script src="main.js"></script>
-
 </html>

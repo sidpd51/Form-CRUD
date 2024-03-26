@@ -1,533 +1,464 @@
-let form = document.getElementById('form')
-let tbody = document.getElementById('tbody')
-let add = document.getElementById('add')
-let userId =1;
-let createForm = document.getElementById('create-form')
-let firstName = document.querySelector('.fname')
-let lastName = document.querySelector('.lname')
-let email = document.querySelector('.email') 
-let address = document.querySelector('.address')
-let dob = document.querySelector('.dob')
-let graduation = document.querySelector('.graduation')
+const form = document.getElementById('form');
+const closeBtn = document.getElementById('close-btn');
+const submitBtn = document.getElementById('submit-btn');
+const createForm = document.getElementById('create-form');
 
-let degree1 = document.querySelector('.degree-1')
-let college1 = document.querySelector('.college-1')
-let startYear1 = document.querySelector('.startYear-1')
-let passoutYear1 = document.querySelector('.passoutYear-1')
-let percentage1= document.querySelector('.percentage-1')
-let backlog1 = document.querySelector('.backlog-1')
-let degree2 = document.querySelector('.degree-2')
-let college2 = document.querySelector('.college-2')
-let startYear2 = document.querySelector('.startYear-2')
-let passoutYear2 = document.querySelector('.passoutYear-2')
-let percentage2= document.querySelector('.percentage-2')
-let backlog2 = document.querySelector('.backlog-2')
+// input fields 
+const firstName = document.getElementById('validationCustom01');
+const lastName = document.getElementById('validationCustom02');
+const email = document.getElementById('validationCustom03');
+const dob = document.getElementById('validationCustom04');
+const graduationYear = document.getElementById('validationCustom05');
+const address = document.getElementById('validationCustom06');
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-let msgFname = document.getElementById('msgFname')
-let msgEmail = document.getElementById('msgEmail')
-let msgAddress = document.getElementById('msgAddress')
-let msgDob = document.getElementById('msgDob')
-let msgGraduation = document.getElementById('msgGraduation')
+const firstNameError = document.querySelector('.validationCustom01Error');
+const emailError = document.querySelector('.validationCustom03Error');
+const dobError = document.querySelector('.validationCustom04Error');
+const graduationYearError = document.querySelector('.validationCustom05Error');
+const addressError = document.querySelector('.validationCustom06Error');
 
-createForm.addEventListener('click', () => {
-    resetEducationRows();
-    resetForm();
-})
+const getUsers = ()=>{
+    return JSON.parse(localStorage.getItem('users'))||[];
+}
+
+const setUsers = (users)=>{
+    localStorage.setItem('users', JSON.stringify(users));
+}
 
 form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    formValidation();
-});
+    e.preventDefault(); 
+    formValidation(); 
+})
 
+createForm.addEventListener('click', ()=>{
+    submitBtn.setAttribute('data-bs-action','add');
+    submitBtn.removeAttribute('data-bs-index');
+    resetInputErrors();
+    defaultRows();
+    form.reset();
+})
 
-let formValidation = () => {
+const formValidation = () =>{
+    // reset errors 
+    resetInputErrors();
 
-    let degree_1 = document.querySelector('.degree-1');
-    let college_1 = document.querySelector('.college-1');
-    let startYear_1 = document.querySelector('.startYear-1');
-    let passoutYear_1 = document.querySelector('.passoutYear-1');
-    let percentage_1 = document.querySelector('.percentage-1');
-    let backlog_1 = document.querySelector('.backlog-1');
-    let degree_2 = document.querySelector('.degree-2');
-    let college_2 = document.querySelector('.college-2');
-    let startYear_2 = document.querySelector('.startYear-2');
-    let passoutYear_2 = document.querySelector('.passoutYear-2');
-    let percentage_2 = document.querySelector('.percentage-2');
-    let backlog_2 = document.querySelector('.backlog-2');
+    const firstName = document.getElementById('validationCustom01');
+    const email = document.getElementById('validationCustom03');
+    const dob = document.getElementById('validationCustom04');
+    const graduationYear = document.getElementById('validationCustom05');
+    const address = document.getElementById('validationCustom06');
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    let msgDegree_1 = document.querySelector('.msgDegree-1');
-    let msgCollege_1 = document.querySelector('.msgCollege-1');
-    let msgStartYear_1 = document.querySelector('.msgStartYear-1');
-    let msgPassoutYear_1 = document.querySelector('.msgPassoutYear-1');
-    let msgPercentage_1 = document.querySelector('.msgPercentage-1');
-    let msgBacklog_1 = document.querySelector('.msgBacklog-1');
-
-    let msgDegree_2 = document.querySelector('.msgDegree-2');
-    let msgCollege_2 = document.querySelector('.msgCollege-2');
-    let msgStartYear_2 = document.querySelector('.msgStartYear-2');
-    let msgPassoutYear_2 = document.querySelector('.msgPassoutYear-2');
-    let msgPercentage_2 = document.querySelector('.msgPercentage-2');
-    let msgBacklog_2 = document.querySelector('.msgBacklog-2');
-    reset()
-
+    let currentYear = new Date().getFullYear();
+    let dobYear = new Date(dob.value).getFullYear();
+    let gradYear = new Date(graduationYear.value).getFullYear();
+    let dobDiff = currentYear-dobYear;
+    let gradDiff = currentYear-gradYear;
 
     let isValid = true;
-
-    const validateField = (input, message)=> {
-        if(input.value.trim()==='' ){   
-            input.classList.add('is-invalid');
-            message.innerHTML='Inavlid Input!';
-            message.classList.add('text-danger');
-            isValid=false;
-        }
+    if(firstName.value.trim()===''){
+        isValid= false;
+        firstName.classList.add('is-invalid');
+        firstNameError.innerHTML="First Name can't be empty";
+        console.log('firstname error')
     }
 
-    const validateEmail = (message) => {
-        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if(!emailRegex.test(email.value)){
-            email.classList.add('is-invalid');
-            message.innerHTML='Inavlid Input!';
-            message.classList.add('text-danger');
-            isValid=false;
-        }
-    }
-    
-    const validateDate = (dateInput, message, minAge) => {
-        const dateValue = new Date(dateInput.value);
-        const currentYear = new Date().getFullYear();
-        const yearDiff = currentYear - dateValue.getFullYear();
-        if(dateInput.value === '' || yearDiff < minAge){
-            dateInput.classList.add('is-invalid');
-            message.innerHTML=`Age must be at least ${minAge} years!`;
-            message.classList.add('text-danger');
-            isValid=false;
-        }
+    if(!emailRegex.test(email.value)){
+        isValid=false;
+        email.classList.add('is-invalid');
+        emailError.innerHTML="Invalid email!";
+        console.log('email error')
     }
 
-    const educationYearValidation = (startyear, passoutyear, message) => {
-        const yearRegex = /^\d{4}-\d{2}$/;
-        const startFullYear = new Date(startyear.value);
-        const passoutFullYear = new Date(passoutyear.value);
-        const yearDiff = passoutFullYear.getFullYear()- startFullYear.getFullYear();
-        
-
-        if(!yearRegex.test(startyear.value) || !yearRegex.test(passoutyear.value) || yearDiff<0){
-            passoutyear.classList.add('is-invalid');
-            message.innerHTML="Must be greater than start year!";
-            isValid=false;
-        }
+    if(address.value.trim()===''){
+        isValid=false;
+        address.classList.add('is-invalid');
+        addressError.innerHTML="Address can't be empty";
+        console.log('address error')
     }
 
-    const numValidation = (num, message) => {
-        if(num.value===''){
-            num.classList.add('is-invalid');
-            message.innerHTML="Invalid input!";
-            isValid=false;
-        }
+    if(dobDiff<18 || dob.value===''){
+        isValid=false;
+        dob.classList.add('is-invalid');
+        dobError.innerHTML="Min age should be 18!";
+        console.log('dob error')
+    }
+    if(gradDiff<1 || graduationYear.value===''){
+        isValid=false;
+        graduationYear.classList.add('is-invalid');
+        graduationYearError.innerHTML="Must before current year!";
+        console.log('graduation error')
     }
 
-    // validating each input field
-    validateField(firstName, msgFname);
-    validateEmail(msgEmail);
-    validateField(address, msgAddress);
-    validateDate(dob, msgDob, 18); // Minimum age required: 18 years
-    validateDate(graduation, msgGraduation, 1); // graduation year not in the future
+    const rows = document.querySelectorAll('#tbody-education-field tr');
 
-    educationYearValidation(startYear_1, passoutYear_1, msgPassoutYear_1);
-    validateField(degree_1, msgDegree_1);
-    validateField(college_1, msgCollege_1);
-    validateField(startYear_1, msgStartYear_1);
-    numValidation(percentage_1, msgPercentage_1);
-    numValidation(backlog_1, msgBacklog_1);
+    for(const row of rows){
 
-    educationYearValidation(startYear_2, passoutYear_2, msgPassoutYear_2);
-    validateField(degree_2, msgDegree_2);
-    validateField(college_2, msgCollege_2);
-    validateField(startYear_2, msgStartYear_2);
-    numValidation(percentage_2, msgPercentage_2);
-    numValidation(backlog_2, msgBacklog_2);
-
-    let rowsToValidate = document.querySelectorAll('#educationTableBody tr');
-    rowsToValidate.forEach(row => {
+        let university = row.querySelector('.university');
         let degree = row.querySelector('.degree');
-        let college = row.querySelector('.college');
         let startYear = row.querySelector('.startYear');
         let passoutYear = row.querySelector('.passoutYear');
         let percentage = row.querySelector('.percentage');
         let backlog = row.querySelector('.backlog');
 
-        let msgDegree = row.querySelector('.msgDegree');
-        let msgCollege = row.querySelector('.msgCollege');
-        let msgStartYear = row.querySelector('.msgStartYear');
-        let msgPassoutYear = row.querySelector('.msgPassoutYear');
-        let msgPercentage = row.querySelector('.msgPercentage');
-        let msgBacklog = row.querySelector('.msgBacklog');
+        let universityError = row.querySelector('.universityError');
+        let degreeError = row.querySelector('.degreeError');
+        let startYearError = row.querySelector('.startYearError');
+        let passoutYearError = row.querySelector('.passoutYearError');
+        let percentageError = row.querySelector('.percentageError');
+        let backlogError = row.querySelector('.backlogError');
 
-        educationYearValidation(startYear, passoutYear, msgPassoutYear);
-        validateField(degree, msgDegree);
-        validateField(college, msgCollege);
-        validateField(startYear, msgStartYear);
-        numValidation(percentage, msgPercentage);
-        numValidation(backlog, msgBacklog);
+        let sy = new Date(startYear.value).getFullYear();
+        let py = new Date(passoutYear.value).getFullYear();
 
-    });
-
-    if(isValid){
-
-        // reset form validation state 
-        reset();
-
-        //add/update
-        if(add.dataset.action === 'add'){
-            addUser();
-        }else if(add.dataset.action === 'update'){
-            console.log('for update ')
-            updateUserInList();
+        if(university.value.trim()==='') {
+            isValid= false;
+            university.classList.add('is-invalid');
+            universityError.innerHTML='Invalid input!';
         }
 
-        // close the modal 
-        add.setAttribute('data-bs-dismiss','modal');
-        add.click();
-        (()=>{
-            add.setAttribute('data-bs-dismiss','');
-        })()
+        if(degree.value.trim()==='') {
+            isValid= false;
+            degree.classList.add('is-invalid');
+            degreeError.innerHTML='Invalid input!';
+        }
+        if(passoutYear.value==='') {
+            isValid=false;
+            passoutYear.classList.add('is-invalid');
+            passoutYearError.innerHTML="Can't be empty!";
+        }
+
+        if(sy>=py || startYear.value===''){
+            isValid=false;
+            startYear.classList.add('is-invalid');
+            startYearError.innerHTML='Must before passout Year!';
+        }
+
+        if(percentage.value===''){
+            isValid=false;
+            percentage.classList.add('is-invalid')
+            percentageError.innerHTML='Invalid input!';
+        }
+
+        if(backlog.value===''){
+            isValid=false;
+            backlog.classList.add('is-invalid')
+            backlogError.innerHTML='Invalid input!';
+        }
+    }
+
+    if(isValid){
+        const action = submitBtn.getAttribute('data-bs-action');
+        if(action==='update'){
+            updateUserToList();
+        }else{
+            addUser();
+        }
+        
     }
 }
 
-let users = [];
-let addUser = () => {
-    // for add 
-    let compulsaryField = [
-        {
-            degree: degree1.value,
-            college: college1.value,
-            startYear: startYear1.value,
-            passoutYear: passoutYear1.value,
-            percentage: percentage1.value,
-            backlog: backlog1.value
-        },
-        {
-            degree: degree2.value,
-            college: college2.value,
-            startYear: startYear2.value,
-            passoutYear: passoutYear2.value,
-            percentage: percentage2.value,
-            backlog: backlog2.value
-        }
-    ];
+const addUser = () =>{
+    const firstName = document.getElementById('validationCustom01');
+    const lastName = document.getElementById('validationCustom02');
+    const email = document.getElementById('validationCustom03');
+    const dob = document.getElementById('validationCustom04');
+    const graduationYear = document.getElementById('validationCustom05');
+    const address = document.getElementById('validationCustom06');
+    const rows = document.querySelectorAll('#tbody-education-field tr');
 
-    let user = {
-        id: userId++,
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: email.value,
-        address: address.value,
-        dob: dob.value,
-        graduation: graduation.value,
-        educationsCompulsary: compulsaryField,
-        educations: []
-    }
+    let educations=[];
 
-    let educationRows = document.querySelectorAll('#educationTableBody tr');
-    educationRows.forEach(row => {
-        let education = {
+    for(const row of rows){
+        let education={
+            university: row.querySelector('.university').value,
             degree: row.querySelector('.degree').value,
-            college: row.querySelector('.college').value,
             startYear: row.querySelector('.startYear').value,
             passoutYear: row.querySelector('.passoutYear').value,
             percentage: row.querySelector('.percentage').value,
-            backlog: row.querySelector('.backlog').value
+            backlog: row.querySelector('.backlog').value,
         }
+        educations.push(education);
+    }
 
-        user.educations.push(education);
-    })
+    let user = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+        dob: dob.value,
+        graduationYear: graduationYear.value,
+        address: address.value,
+        educations: educations
+    }
 
+    let users = getUsers();
     users.push(user);
-    // for update 
-    renderUsers();
+    setUsers(users);
+
+    displayUsers();
+    closeBtn.click();
+    form.reset();
     alert('user created successfully!');
 }
 
-// function for adding a new education row in modal 
-const addEducationRow = ()=> {
-    const educationTableBody = document.getElementById('educationTableBody');
+const displayUsers = () =>{
+    const tBody = document.getElementById('tbody-main');
+    let users = getUsers();
+    tBody.innerHTML= users.map((element,index) =>{
+        
+        return `<tr>
+            <td>${element.firstName}</td>
+            <td>${element.lastName}</td>
+            <td>${element.email}</td>
+            <td>${element.dob}</td>
+            <td>${element.graduationYear}</td>
+            <td>${element.address}</td>
+            <td><button class="btn btn-outline-primary" onclick="viewUser(${index})"><i class="fa-solid fa-eye"></i></button></td>
+            <td><button class="btn btn-outline-warning" onclick="updateUser(${index})"><i class="fa-solid fa-pen-to-square"></i></button></td>
+            <td><button class="btn btn-outline-danger" onclick="deleteUser(${index})"><i class="fa-solid fa-trash-can"></i></button></td>
+        </tr>
+    `
+    }).join('');
+}
+
+const updateUser = (index) =>{
+
+    let users = getUsers();
+    let currentUser = users[index];
+    createForm.click();
+
+    firstName.value= currentUser.firstName;
+    lastName.value= currentUser.lastName;
+    email.value= currentUser.email;
+    dob.value= currentUser.dob;
+    graduationYear.value= currentUser.graduationYear;
+    address.value= currentUser.address;
+
+    let educations = currentUser.educations;
+
+    let educationFields = document.getElementById('tbody-education-field');
+
+    educationFields.innerHTML=educations.map((element, index)=>{
+        let {university, degree, startYear, passoutYear, percentage, backlog} = element;
+        let isDisabled = index<2? 'disabled': '';
+        return `
+        <tr>
+            <td>
+                <input type="text" class="form-control university" placeholder="University" value="${university}">
+                <div class="universityError text-danger"></div>
+            </td>
+            <td>
+                <input type="text" class="form-control degree" placeholder="Degree" value="${degree}">
+                <div class="degreeError text-danger"></div>
+            </td>
+            <td>
+                <input type="date" class="form-control startYear" value="${startYear}">
+                <div class="startYearError text-danger"></div>
+            </td>
+            <td>
+                <input type="date" class="form-control passoutYear" value="${passoutYear}">
+                <div class="passoutYearError text-danger"></div>
+            </td>
+            <td>
+                <input type="number" class="form-control percentage" min="45" max="100" step="0.01" value="${percentage}">
+                <div class="percentageError text-danger"></div>
+            </td>
+            <td>
+                <input type="number" class="form-control backlog" min="0" max="50" value="${backlog}">
+                <div class="backlogError text-danger"></div>
+            </td>
+            <td>
+                <button onclick="removeEducationRow(this)" type="button" class="btn btn-outline-primary remove-education-field" ${isDisabled}><i class="fa-solid fa-minus"></i></button>
+            </td>
+        </tr>`
+    }).join('');
+
+    submitBtn.setAttribute('data-bs-action','update');
+    submitBtn.setAttribute('data-bs-index', index);
+}
+
+const updateUserToList = () =>{
+    let currentIndex = submitBtn.getAttribute('data-bs-index');
+    const rows = document.querySelectorAll('#tbody-education-field tr');
+
+    let educations=[];
+
+    for(const row of rows){
+        let education={
+            university: row.querySelector('.university').value,
+            degree: row.querySelector('.degree').value,
+            startYear: row.querySelector('.startYear').value,
+            passoutYear: row.querySelector('.passoutYear').value,
+            percentage: row.querySelector('.percentage').value,
+            backlog: row.querySelector('.backlog').value,
+        }
+        educations.push(education);
+    }
+
+    let currentUser = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+        dob: dob.value,
+        graduationYear: graduationYear.value,
+        address: address.value,
+        educations: educations
+    }
+
+    let users = getUsers();
+    users[currentIndex]=currentUser;
+    setUsers(users);
+
+    displayUsers();
+    alert('user updated successfully!');
+    closeBtn.click();
+}
+
+const deleteUser = (index)=>{
+    const result = confirm('Are you sure?');
+    let users = getUsers();
+    if(result) users.splice(index,1);
+    setUsers(users);
+    displayUsers();
+}
+
+const resetInputErrors = () =>{
+
+    firstName.classList.remove('is-invalid');
+    email.classList.remove('is-invalid');
+    dob.classList.remove('is-invalid');
+    graduationYear.classList.remove('is-invalid');
+    address.classList.remove('is-invalid');
+
+    firstNameError.innerHTML='';
+    emailError.innerHTML='';
+    dobError.innerHTML='';
+    graduationYearError.innerHTML='';
+    addressError.innerHTML='';
+
+    const rows = document.querySelectorAll('#tbody-education-field tr');
+    for(const row of rows){
+
+        row.querySelector('.university').classList.remove('is-invalid');
+        row.querySelector('.degree').classList.remove('is-invalid');
+        row.querySelector('.startYear').classList.remove('is-invalid');
+        row.querySelector('.passoutYear').classList.remove('is-invalid');
+        row.querySelector('.percentage').classList.remove('is-invalid');
+        row.querySelector('.backlog').classList.remove('is-invalid');
+
+        row.querySelector('.universityError').innerHTML='';
+        row.querySelector('.degreeError').innerHTML='';
+        row.querySelector('.startYearError').innerHTML='';
+        row.querySelector('.passoutYearError').innerHTML='';
+        row.querySelector('.percentageError').innerHTML='';
+        row.querySelector('.backlogError').innerHTML='';
+    }
+}
+
+const addEducationRow = () =>{
+    const tBody = document.getElementById('tbody-education-field');
     const newRow = `
     <tr>
-        <td class="pb-0">
+        <td>
+            <input type="text" class="form-control university" placeholder="University">
+            <div class="universityError text-danger"></div>
+        </td>
+        <td>
             <input type="text" class="form-control degree" placeholder="Degree">
-            <p class="msgDegree fs-6 text-danger"></p>
+            <div class="degreeError text-danger"></div>
         </td>
         <td>
-            <input type="text" class="form-control college" placeholder="College">
-            <p class="msgCollege fs-6 text-danger"></p>
+            <input type="date" class="form-control startYear">
+            <div class="startYearError text-danger"></div>
         </td>
         <td>
-            <input type="month" class="form-control startYear" placeholder="Start Year">
-            <p class="msgStartYear fs-6 text-danger"></p>
+            <input type="date" class="form-control passoutYear">
+            <div class="passoutYearError text-danger"></div>
         </td>
         <td>
-            <input type="month" class="form-control passoutYear" placeholder="Passout Year">
-            <p class="msgPassoutYear fs-6 text-danger"></p>
+            <input type="number" class="form-control percentage" min="45" max="100" step="0.01">
+            <div class="percentageError text-danger"></div>
         </td>
         <td>
-            <input type="number" class="form-control percentage" placeholder="Percentage" min="0" max="100" step="0.01">
-            <p class="msgPercentage fs-6 text-danger"></p>
+            <input type="number" class="form-control backlog" min="0" max="50">
+            <div class="backlogError text-danger"></div>
         </td>
         <td>
-            <input type="number" class="form-control backlog" placeholder="Backlog" min="0" max="100">
-            <p class="msgBacklog fs-6 text-danger"></p>
-        </td>
-        <td>
-            <button type="button" onclick="removeEducationRow(this)" class="btn btn-outline-danger remove-education-btn"><i class="fa-solid fa-minus"></i></button>
+            <button type="button" onclick="removeEducationRow(this)" class="btn btn-outline-primary remove-education-field"><i class="fa-solid fa-minus"></i></button>
         </td>
     </tr>
-    `;
-    educationTableBody.insertAdjacentHTML('beforeend', newRow);
-};
+    `
+    tBody.insertAdjacentHTML('beforeend', newRow);
+}
 
 const removeEducationRow = (button)=> {
     const row = button.closest('tr');
     row.remove();
-};
-
-
-let renderUsers = ()=> {
-    resetForm();
-    return ( tbody.innerHTML= users.map((user,index)=> {
-        let { id, firstName, lastName, address, email, dob, graduation} = user;
-
-        return `
-        <tr data-user-id="${id}" >
-            <th scope="row">${index+1}</th>
-            <td>${firstName}</td>
-            <td>${lastName}</td>
-            <td>${email}</td>
-            <td>${address}</td>
-            <td>${dob}</td>
-            <td>${graduation}</td>
-            <td>
-                <button onclick="updateUser(${index})" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#form">
-                    <i class="fa-solid fa-pen-to-square fa-lg"></i>
-                </button>
-                <button onclick="deleteUser(${index})" class="btn btn-outline-danger" >
-                    <i class="fa-regular fa-trash-can fa-lg"></i>
-                </button>
-            </td>
-        </tr>
-        `
-    }).join(' '));
 }
 
-let updateUser = (index) => {
-    let currentUser = users[index]
-    console.log(currentUser)
-
-    if(currentUser){
-
-        // show common info 
-        firstName.value= currentUser.firstName;
-        lastName.value= currentUser.lastName;
-        email.value= currentUser.email;
-        address.value= currentUser.address;
-        dob.value= currentUser.dob;
-        graduation.value= currentUser.graduation;
-
-        // show compulsary education fields 
-
-        {
-            degree1.value=currentUser.educationsCompulsary[0].degree;
-            college1.value=currentUser.educationsCompulsary[0].college;
-            startYear1.value=currentUser.educationsCompulsary[0].startYear;
-            passoutYear1.value=currentUser.educationsCompulsary[0].passoutYear;
-            percentage1.value=currentUser.educationsCompulsary[0].percentage;
-            backlog1.value=currentUser.educationsCompulsary[0].backlog;
-        }
-
-        {
-            degree2.value=currentUser.educationsCompulsary[1].degree;
-            college2.value=currentUser.educationsCompulsary[1].college;
-            startYear2.value=currentUser.educationsCompulsary[1].startYear;
-            passoutYear2.value=currentUser.educationsCompulsary[1].passoutYear;
-            percentage2.value=currentUser.educationsCompulsary[1].percentage;
-            backlog2.value=currentUser.educationsCompulsary[1].backlog;
-        }
-
-        let educationTableBody = document.getElementById('educationTableBody');
-        educationTableBody.innerHTML=''
-        currentUser.educations.forEach(education => {
-            let {degree, college, startYear, passoutYear, percentage, backlog} = education
-            const newRow = `
-                <tr>
-                    <td class="pb-0">
-                        <input type="text" class="form-control degree" placeholder="Degree" value="${degree}">
-                        <p class="msgDegree text-danger fs-6"></p>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control college" placeholder="College" value="${college}">
-                        <p class="msgCollege text-danger fs-6"></p>
-                    </td>
-                    <td>
-                        <input type="month" class="form-control startYear" placeholder="Start Year" value="${startYear}">
-                        <p class="msgStartYear text-danger fs-6"></p>
-                    </td>
-                    <td>
-                        <input type="month" class="form-control passoutYear" placeholder="Passout Year" value="${passoutYear}">
-                        <p class="msgPassoutYear text-danger fs-6"></p>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control percentage" placeholder="Percentage" min="0" max="100" step="0.01" value="${percentage}">
-                        <p class="msgPercentage text-danger fs-6"></p>
-                    </td>
-                    <td>
-                        <input type="number" class="form-control backlog" placeholder="Backlog" min="0" max="100" value="${backlog}">
-                        <p class="msgBacklog text-danger fs-6"></p>
-                    </td>
-                    <td>
-                        <button type="button" onclick="removeEducationRow(this)" class="btn btn-outline-danger remove-education-btn"><i class="fa-solid fa-minus"></i></button>
-                    </td>
-                </tr>
-            `;
-            educationTableBody.insertAdjacentHTML('beforeend', newRow);
-        });
-        // Update the button attribute to indicate it's an update action
-        add.setAttribute('data-action', 'update')
-        add.setAttribute('data-user-id', currentUser.id)
-    }
+const defaultRows = () => {
+    const rows = document.getElementById('tbody-education-field');
+    rows.innerHTML=`
+    <tr>
+        <td>
+            <input type="text" class="form-control university" placeholder="University">
+            <div class="universityError text-danger"></div>
+        </td>
+        <td>
+            <input type="text" class="form-control degree" placeholder="Degree">
+            <div class="degreeError text-danger"></div>
+        </td>
+        <td>
+            <input type="date" class="form-control startYear">
+            <div class="startYearError text-danger"></div>
+        </td>
+        <td>
+            <input type="date" class="form-control passoutYear">
+            <div class="passoutYearError text-danger"></div>
+        </td>
+        <td>
+            <input type="number" class="form-control percentage" min="45" max="100" step="0.01">
+            <div class="percentageError text-danger"></div>
+        </td>
+        <td>
+            <input type="number" class="form-control backlog" min="0" max="50">
+            <div class="backlogError text-danger"></div>
+        </td>
+        <td>
+            <button onclick="removeEducationRow(this)" type="button" class="btn btn-outline-primary remove-education-field" disabled><i class="fa-solid fa-minus"></i></button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" class="form-control university" placeholder="University">
+            <div class="universityError text-danger"></div>
+        </td>
+        <td>
+            <input type="text" class="form-control degree" placeholder="Degree">
+            <div class="degreeError text-danger"></div>
+        </td>
+        <td>
+            <input type="date" class="form-control startYear">
+            <div class="startYearError text-danger"></div>
+        </td>
+        <td>
+            <input type="date" class="form-control passoutYear">
+            <div class="passoutYearError text-danger"></div>
+        </td>
+        <td>
+            <input type="number" class="form-control percentage" min="45" max="100" step="0.01">
+            <div class="percentageError text-danger"></div>
+        </td>
+        <td>
+            <input type="number" class="form-control backlog" min="0" max="50">
+            <div class="backlogError text-danger"></div>
+        </td>
+        <td>
+            <button onclick="removeEducationRow(this)" type="button" class="btn btn-outline-primary remove-education-field" disabled><i class="fa-solid fa-minus"></i></button>
+        </td>
+    </tr>
+    `
 }
 
-// function to update users in the array or list
-let updateUserInList = () => {
-    let userIdToUpdate = add.dataset.userId; // Retrieve the user ID from the button attribute
-    console.log('inside updateuserlist')
-    // Find the user in the list and update their data
-    let index = users.findIndex((user) => user.id == userIdToUpdate);
-    if (index !== -1) {
-        let updatedUser = {
-            id: userIdToUpdate,
-            firstName: firstName.value,
-            lastName: lastName.value,
-            email: email.value,
-            address: address.value,
-            dob: dob.value,
-            graduation: graduation.value,
-            educationsCompulsary: [ 
-                {
-                    degree: degree1.value,
-                    college: college1.value,
-                    startYear: startYear1.value,
-                    passoutYear: passoutYear1.value,
-                    percentage: percentage1.value,
-                    backlog: backlog1.value
-                },
-                {
-                    degree: degree2.value,
-                    college: college2.value,
-                    startYear: startYear2.value,
-                    passoutYear: passoutYear2.value,
-                    percentage: percentage2.value,
-                    backlog: backlog2.value
-                }
-            ],
-            educations: []
-        };
-
-        let educationRows = document.querySelectorAll('#educationTableBody tr');
-        educationRows.forEach(row => {
-            let education = {  
-                degree: row.querySelector('.degree').value,
-                college: row.querySelector('.college').value,
-                startYear: row.querySelector('.startYear').value,
-                passoutYear: row.querySelector('.passoutYear').value,
-                percentage: row.querySelector('.percentage').value,
-                backlog: row.querySelector('.backlog').value
-            }
-            updatedUser.educations.push(education);
-        })
-        users[index]= updatedUser;
-        renderUsers(); // Update the UI
-        alert('User updated successfully!');
-    }
-}
-
-let deleteUser = (index)=> {
-    let result = confirm('Are you sure?')
-    if(result){
-        users.splice(index, 1)
-        renderUsers();
-    }
-}
-
-let reset = () => {
-
-    // remove highlights from input
-    firstName.classList.remove('is-invalid');
-    email.classList.remove('is-invalid');
-    address.classList.remove('is-invalid');
-    dob.classList.remove('is-invalid');
-    graduation.classList.remove('is-invalid');
-
-    // reset labels 
-    msgFname.innerHTML='First Name';
-    msgEmail.innerHTML= 'Email';
-    msgAddress.innerHTML= 'Address';
-    msgDob.innerHTML='Date Of Birth';
-    msgGraduation.innerHTML= 'Graduation Year';
-    
-    // remove text danger 
-    msgFname.classList.remove('text-danger');
-    msgEmail.classList.remove('text-danger');
-    msgAddress.classList.remove('text-danger');
-    msgDob.classList.remove('text-danger');
-    msgGraduation.classList.remove('text-danger');
-
-    let msgDegrees = document.querySelectorAll('.msgDegree');
-    let msgColleges = document.querySelectorAll('.msgCollege');
-    let msgStartYears = document.querySelectorAll('.msgStartYear');
-    let msgPassoutYears = document.querySelectorAll('.msgPassoutYear');
-    let msgPercentages = document.querySelectorAll('.msgPercentage');
-    let msgBacklogs = document.querySelectorAll('.msgBacklog');
-    let inputs = document.querySelectorAll('.table input');
-
-    for(let i =0; i<inputs.length; i++){
-        inputs[i].classList.remove('is-invalid');
-    }
-
-    for(let i =0; i<msgDegrees.length; i++){
-        msgDegrees[i].innerHTML=' ';
-        msgColleges[i].innerHTML=' ';
-        msgStartYears[i].innerHTML=' ';
-        msgPassoutYears[i].innerHTML=' ';
-        msgPassoutYears[i].innerHTML=' ';
-        msgPercentages[i].innerHTML=' ';
-        msgBacklogs[i].innerHTML=' ';
-    }
-
-}
-
-let resetForm = () => {
-    firstName.value='';
-    lastName.value='';
-    email.value='';
-    address.value='';
-    dob.value='';
-    graduation.value='';
-    degree1.value='';
-    college1.value='';
-    startYear1.value='';
-    passoutYear1.value='';
-    percentage1.value='';
-    backlog1.value='';
-    degree2.value='';
-    college2.value='';
-    startYear2.value='';
-    passoutYear2.value='';
-    percentage2.value='';
-    backlog2.value='';
-    add.setAttribute('data-action', 'add');
-    add.removeAttribute('data-user-id');
-}
-
-let resetEducationRows = () => {
-    const educationTableBody = document.getElementById('educationTableBody');
-    educationTableBody.innerHTML = '';
-}
+displayUsers();
