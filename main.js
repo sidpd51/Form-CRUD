@@ -203,23 +203,21 @@ const addUser = () =>{
 }
 
 const displayUsers = () =>{
-    const tBody = document.getElementById('tbody-main');
     let users = getUsers();
-    tBody.innerHTML= users.map((element,index) =>{
-        
-        return `<tr>
-            <td>${element.firstName}</td>
-            <td>${element.lastName}</td>
-            <td>${element.email}</td>
-            <td>${element.dob}</td>
-            <td>${element.graduationYear}</td>
-            <td>${element.address}</td>
-            <td><button class="btn btn-outline-primary" onclick="viewUser(${index})"><i class="fa-solid fa-eye"></i></button></td>
-            <td><button class="btn btn-outline-warning" onclick="updateUser(${index})"><i class="fa-solid fa-pen-to-square"></i></button></td>
-            <td><button class="btn btn-outline-danger" onclick="deleteUser(${index})"><i class="fa-solid fa-trash-can"></i></button></td>
-        </tr>
-    `
-    }).join('');
+    let table = new DataTable('#table-main');
+    table.clear();
+    users.forEach((element,index)=>{
+        table.row.add([
+            element.firstName,
+            element.lastName,
+            element.email,
+            element.dob,
+            element.graduationYear,
+            element.address,
+            `<button class="btn btn-outline-warning" onclick="updateUser(${index})"><i class="fa-solid fa-pen-to-square"></i></button>`,
+            `<button class="btn btn-outline-danger" onclick="deleteUser(${index})"><i class="fa-solid fa-trash-can"></i></button>`
+        ]).draw();
+    })
 }
 
 const updateUser = (index) =>{
@@ -241,6 +239,8 @@ const updateUser = (index) =>{
 
     educationFields.innerHTML=educations.map((element, index)=>{
         let {university, degree, startYear, passoutYear, percentage, backlog} = element;
+        
+        // for disabling starting 2 remove button in education field 
         let isDisabled = index<2? 'disabled': '';
         return `
         <tr>
@@ -279,6 +279,8 @@ const updateUser = (index) =>{
 }
 
 const updateUserToList = () =>{
+
+    // get the index of the user whom you want to update 
     let currentIndex = submitBtn.getAttribute('data-bs-index');
     const rows = document.querySelectorAll('#tbody-education-field tr');
 
@@ -461,4 +463,5 @@ const defaultRows = () => {
     `
 }
 
+// called displayUsers to render users on refresh 
 displayUsers();
